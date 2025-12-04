@@ -1,0 +1,32 @@
+.settings-container {
+    width: 100%;
+    height: calc(100% - 104px);
+}
+
+.settings-content-card {
+    width: 90%;
+    height: 70%;
+}
+
+.content-control {
+    width: calc(100% - 250px);
+    height: 100%;
+}
+
+@media (max-width: 1024px) {
+    .settings-container {
+        height: calc(100% - 114px);
+    }
+
+    .side-nav-control {
+        display: none;
+    }
+
+    .content-control {
+        width: 100%;
+    }
+
+    .settings-content-card {
+        height: 90%;
+    }
+}

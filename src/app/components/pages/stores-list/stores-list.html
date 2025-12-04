@@ -1,0 +1,76 @@
+<div class="history">
+    <h4 (click)="goTo('/home')">Início</h4>
+    <h3>-</h3>    
+    <p (click)="goTo('/stores')">Lojas</p>
+</div>
+
+ @let page = storeService.pageOfpublicStores();
+
+<div class="filter-container">
+    <div class="filter-btn">
+        <h2>
+            <i class="bi bi-shop"></i>
+        </h2>
+        <p>Lojas encontradas:</p>
+    </div>
+    <div class="filter-search-bar">
+        <input
+            [(ngModel)]="inputValue"
+            (keydown.enter)="search()"
+            type="text"
+            class="filter-search font-2"
+            placeholder="Buscar lojas"/>
+        <i (click)="search()" style="font-size: 18px;" class="bi bi-search"></i>
+    </div>
+    <div class="controls">
+        <p>
+            @if (page !== null) {
+                {{page.meta.itemCount}}
+            } @else {
+                0
+            }
+            lojas encontrados</p>
+    </div>
+</div>
+
+@if (page !== null) {
+    <div style="width: 100%; display: flex; flex-direction: column;" class="product-list">
+    <div class="grid">
+        @for (store of page.data ; track store.id) {
+            <div (click)="goToStore(store)" class="product-card">
+                @if (store.publicImageUrls.length > 0) {
+                    <img [src]="store.publicImageUrls[0]"/>
+                }
+                @else {
+                    <img src="default_store.jpg"/>
+                }
+            
+                <div class="description">
+                    <p class="primary">{{store.name}}</p>
+                    <p class="secondary">{{store.description}}</p>
+                </div>
+            </div>
+        }
+    </div>
+    </div>
+}
+@else {
+    <div style="width: 100%; justify-content: center;" class="row font-2">
+        <div>
+            Nenhuma loja foi encontrada.
+        </div>
+    </div>
+}
+
+<div style="position: fixed; bottom: 0; width: 100%; justify-content: center; margin-bottom: 30px;" class="row">
+    <div style="border-radius: 5px; padding: 5px; background-color: var(--mat-sys-surface);">
+        <i (click)="previous()" style="cursor: pointer; margin-right: 10px; font-size: 20px;" class="bi bi-arrow-left-circle-fill"></i>
+        @if (page !== null) {
+            {{ page.meta.page }} / {{ page.meta.pageCount }}
+        }
+        @else {
+            {{ 0 }} / {{ 0 }}
+        }
+        <i (click)="next()" style="cursor: pointer; margin-left: 10px; font-size: 20px;" class="bi bi-arrow-right-circle-fill"></i>
+    </div>
+</div>

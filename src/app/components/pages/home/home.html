@@ -1,0 +1,81 @@
+<div class="page-content">
+    <div class="green-cover col centered" style="height: max(30%, 250px);">
+        <div class="card home-header">
+            <p class="font-2-bold">
+                As melhores roupas estão aqui
+            </p>
+            <p class="font-2">
+                Conectamos você aos melhores lojas e producoes locais, 
+                descubra produtos unicos e condições impedíveis para renovar 
+                o guarda roupa ou venda de atacado.
+            </p>
+
+            <div class="row centered" style="gap: 10px;">        
+                <input
+                [(ngModel)]="inputValue"
+                (keydown.enter)="onEnterPressed()"
+                type="text"
+                class="font-2"
+                style=
+                "
+                    width: 100%;
+                    background-color: white;
+                    border: none;
+                    border-radius: 5px;
+                    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+                    transition: 0.3s;
+                    color: #28282B;
+                    padding: 10px;
+                "
+                placeholder="Buscar lojas, produtos ou categorias..."
+                size="10" />
+                <i (click)="onEnterPressed()" class="bi bi-search"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="col centered">
+        <div
+            class="card centered row add-card"
+        >
+            <div
+                class="col centered"
+                style=
+                "
+                    height: 100%;
+                    width: 100%;
+                    margin: 8px;
+                    background-color: #28282B;
+                    border: 1px solid white;
+                    border-radius: 4px;
+                    color: white;
+                "
+            >
+                <p class="font-2-bold" style="font-size: 16px;">
+                    Torne-se uma loja parceira de vendas  
+                </p>
+
+                <a class="font-2" style="font-size: 14px;">&#x2713; Cadastra-se no site</a>
+                <a class="font-2" style="font-size: 14px;">&#x2713; Crie uma loja</a>
+                <a class="font-2" style="font-size: 14px;">&#x2713; Escolha um plano</a>
+                <a class="font-2" style="font-size: 14px;">&#x2713; Veja a facilidade em vender</a>
+                <button
+                    class="light-btn"
+                    style="margin: 20px;"
+                >
+                    Explore nossos planos
+                </button>
+            </div>
+        </div>
+
+
+        <!-- <app-trending-home-products [itemsList]="getTest()"></app-trending-home-products> -->
+        <app-trending-home-item [itemsList]="trendingService.getTrendingProduct()"></app-trending-home-item>
+
+        <app-trending-home-item [trendingType]="1" [itemsList]="trendingService.getTrendingStores()"></app-trending-home-item>
+        <!-- <app-trending-home-products [trendingType]="1" [itemsList]="getTest2()"></app-trending-home-products> -->
+        <br>
+        <br>
+        <br>
+    </div>   
+</div>

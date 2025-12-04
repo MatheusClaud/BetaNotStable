@@ -1,0 +1,109 @@
+@let store = storeService.currentPublicStore();
+<div class="history">
+    <h4 (click)="goTo('/home')">Início</h4>
+    <h3>-</h3>    
+    <p (click)="goTo('/stores')">Lojas</p>
+    <h3>-</h3>
+    @if(store != null) {
+        <p>{{store?.name}}</p>
+    }
+    @else {
+        <p>Carregando...</p>
+    }
+</div>
+
+@if (store != null) {
+    <div class="container font-2">
+        <div style="justify-content: flex-start;" class="client-data row">
+            <div class="col">
+                @if (store!!.publicImageUrls.length > 0) {
+                    <img [src]="store!!.publicImageUrls[0]"/>
+                }
+                @else {
+                    <img src="default_store.jpg"/>
+                }
+                @let refInsta = "https://www.instagram.com/" + store?.instagram;
+                <a style="margin: 10px 0px 0px 5px;" [href]="refInsta" target="_blank" rel="noopener noreferrer">@{{store?.instagram}}</a>
+            </div>
+            <div style="align-self: flex-start;" class="client-description col">
+                <p class="h font-2">
+                    {{store?.name}}, loja parceira desde 2025
+                </p>
+                <p class="d font-2">
+                    {{store?.description}}
+                </p>
+            </div>
+        </div>
+    </div>
+}
+
+@let page = productService.pageOfPublicProducts();
+
+<div class="filter-container">
+    <div class="filter-btn">
+        <h2>
+            <i class="bi bi-shop"></i>
+        </h2>
+        <p>Produtos:</p>
+    </div>
+    <div class="filter-search-bar">
+        <input
+            [(ngModel)]="inputValue"
+            (keydown.enter)="search()"
+            type="text"
+            class="filter-search font-2"
+            placeholder="Buscar produtos"/>
+        <i (click)="search()" style="font-size: 18px;" class="bi bi-search"></i>
+    </div>
+    <div class="controls">
+        <p>
+            @if (page !== null) {
+                {{page.meta.itemCount}}
+            } @else {
+                0
+            }
+            produtos encontrados</p>
+    </div>
+</div>
+
+@if (page !== null) {
+    <div style="width: 100%; display: flex; flex-direction: column;" class="product-list">
+    <div class="grid">
+        @for (product of page.data ; track product.id) {
+            <div (click)="goToProduct(product)" class="product-card">
+                @if (product.publicImageUrls.length > 0) {
+                    <img [src]="product.publicImageUrls[0]"/>
+                }
+                @else {
+                    <img src="default_product.jpg"/>
+                }
+            
+                <div class="description">
+                    <p class="primary">{{product.name}}</p>
+                    <p class="secondary">R$ {{product.basePrice}}</p>
+                </div>
+            </div>
+        }
+    </div>
+    </div>
+}
+@else {
+    <div style="width: 100%; justify-content: center;" class="row font-2">
+        <div>
+            Nenhum produto foi encontrado.
+        </div>
+    </div>
+}
+
+<div style="position: fixed; bottom: 0; width: 100%; justify-content: center; margin-bottom: 30px;" class="row">
+    <div style="border-radius: 5px; padding: 5px; background-color: var(--mat-sys-surface);">
+        <i (click)="previous()" style="cursor: pointer; margin-right: 10px; font-size: 20px;" class="bi bi-arrow-left-circle-fill"></i>
+        @if (page !== null) {
+            {{ page.meta.page }} / {{ page.meta.pageCount }}
+        }
+        @else {
+            {{ 0 }} / {{ 0 }}
+        }
+        <i (click)="next()" style="cursor: pointer; margin-left: 10px; font-size: 20px;" class="bi bi-arrow-right-circle-fill"></i>
+    </div>
+</div>

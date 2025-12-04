@@ -1,0 +1,48 @@
+.client-data {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 15px 25px;
+    border-bottom: solid 1px rgb(0,0 ,0, 0.5);
+}
+
+.client-data img {
+    align-self: flex-start;
+    width: auto;
+    height: 150px;
+    margin-right: 20px;
+    padding: 10px;
+    aspect-ratio: 3 / 4;
+    border: solid rgb(0,0 ,0, 0.5) 1px;
+    border-radius: 5px;
+}
+
+.client-description {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.client-description {
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: 20px;
+    letter-spacing: 0.64px;
+}
+
+.client-description .h {
+    margin-top: 30px;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 28px;
+    letter-spacing: 1.6px;
+}
+
+.client-description .d {
+    max-lines: 4;
+    max-height: 100px;
+    overflow-y: auto;
+}

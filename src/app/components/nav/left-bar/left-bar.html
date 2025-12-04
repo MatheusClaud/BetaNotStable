@@ -1,0 +1,87 @@
+@if(showFilter()) {
+    <div class="content">
+        <div class="inner">
+            <span (click)="gotToHome()" class="logo">Vestai</span>
+            <div class="header">
+                <div class="search-bar">
+                    <input
+                        [(ngModel)]="inputValue"
+                        (keydown.enter)="onEnterPressed()"
+                        type="text"
+                        class="search"
+                        placeholder="Oque você procura?"/>
+                    <i (click)="onEnterPressed()" class="bi bi-search"></i>
+                </div>
+                <div class="flag2">
+                    <h2 (click)="openCart()">
+                        <i class="bi bi-cart3"></i>  
+                    </h2>
+                </div>
+                <div class="flag">
+                    <h1 (click)="closeFilter()"><i class="bi bi-x"></i></h1>
+                </div>
+            </div>
+            <div class="commands">
+                <a  class="comm">Opcões: </a>
+                @if(!isLoged()) {
+                    <span (click)="goToLogin()" class="command">Login</span>
+                }
+                @if(!isLoged()) {
+                    <span (click)="goToSingIn()" class="command">Cadastro</span>
+                }
+                @if(isLoged()) {
+                    <span (click)="logout()" class="command">Encerrar seção</span>
+                }
+            </div>
+            @if (isLoged()) {
+                <div class="commands">
+                    <a class="comm">Configurações </a>
+                    <span (click)="gotTo('/account-settings/profile')" class="command">Editar usuário</span>
+                    <span (click)="gotTo('/account-settings/update-password')" class="command">Mudar senha</span>
+                    <!-- <span class="command">Assinaturas</span> -->
+                    <span (click)="gotTo('/account-settings/my-stores')" class="command">Minhas lojas</span>
+                </div>
+            }
+            @if (storeService.storeToEdit() !== null) {
+                <div class="commands">
+                    <a class="comm">({{storeService.storeToEdit()?.name}}): </a>
+                    <span (click)="gotTo('/account-settings/products')" class="command">Produtos</span>
+                </div>
+            }
+            @if (true) {
+                <div class="commands">
+                    <a class="comm">Navegar: </a>
+                    <span (click)="gotTo('/stores')" class="command">Descobrir lojas</span>
+                </div>
+            }
+            @if (false) {
+                <div class="commands">
+                    <a>Filtros: </a>
+                </div>
+                <div class="filter">
+                    @for (f of filters; track f.label; let i = $index) {
+                        <div class="filter-opt" (click)="setFilterOpen(i)">
+                            <a>{{f.label}}</a>
+                            @if(filterOpen != i) {
+                                <i class="bi bi-chevron-right"></i>
+                            }
+                            @if(filterOpen == i) {
+                                <i class="bi bi-chevron-up"></i>
+                            }
+                        </div>
+                        @if(filterOpen == i) {
+                            <div class="sub-options">
+                                @for (sf of f.filters; track sf.label; let j = $index) {
+                                    <div (click)="selectFilter(i, j)" class="filter-opt">
+                                        <a>{{sf.label}}</a>
+                                    </div>
+                                }
+                            </div>
+                        }
+                    }
+                </div>
+            }
+        </div>
+        <div (click)="closeFilter()" class="outer"></div>
+    </div>
+}

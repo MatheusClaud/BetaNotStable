@@ -1,0 +1,43 @@
+<div class="info">
+    <p class="a">
+       Entregas parceiras monitoradas
+    </p>
+    <p class="b">
+       Atendimento e-commerce: 0800 000 0000
+    </p>
+</div>
+<div class="header">
+    <h2 (click)="openFilter()" class="mobile-options">
+        <i class="bi bi-list"></i>  
+    </h2>
+    <span (click)="gotToHome()" class="logo">Vestai</span>
+    <div class="search-bar">
+        <input
+            [(ngModel)]="inputValue"
+            (keydown.enter)="onEnterPressed()"
+            type="text"
+            class="search"
+            placeholder="Buscar lojas, produtos ou categorias..." />
+        <i (click)="onEnterPressed()" class="bi bi-search"></i>
+    </div>
+    <div class="options">
+        <h2 (click)="openCart()">
+            <i class="bi bi-cart3"></i>  
+        </h2>
+        @if(isLoged()) {
+            <span (click)="gotTo('/stores')" class="command">Descobrir lojas</span>
+        }
+        @if(isLoged()) {
+            <span (click)="gotToSettings()" class="command">Configurações de conta</span>
+        }
+        @if(!isLoged()) {
+            <span (click)="goToLogin()" class="command">Login</span>
+        }
+        @if(!isLoged()) {
+            <span (click)="goToSingIn()" class="command">Cadastro</span>
+        }
+        @if(isLoged()) {
+            <span (click)="logout()" class="command">Encerrar seção</span>
+        }
+    </div>
+</div>

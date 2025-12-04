@@ -1,0 +1,72 @@
+<div style="
+    width: 100%;
+    height: 400px;
+    background-color: var(--mat-sys-surface);
+    border-radius: 10px;
+    border: 1px solid #282828;
+    ">
+    @if (imageLimit === 1) {
+        <input
+            #inputField
+            hidden
+            type="file"
+            (change)="fileSelected($event)"
+            (click)="inputField.value = ''"
+        />
+        <div (click)="inputField.click()" class="col centered" style="cursor: pointer; height: 30%; border-bottom: #282828 1px solid;">
+            <i style="font-size: 40px; margin-bottom: 10px;" class="bi bi-file-earmark-plus-fill"></i>
+            @if(imageLimitSurpassed()) {
+                <div style="color: red;" class="font-2">Limite de {{imageLimit}} imagens atingido!!</div>
+            }
+            @else {
+                <div class="font-2">Clique e selecione uma imagem</div>
+            }
+        </div>
+    }
+    @else {
+        <input
+            #inputField
+            hidden
+            multiple
+            type="file"
+            (change)="fileSelected($event)"
+            (click)="inputField.value = ''"
+        />
+        <div (click)="inputField.click()" class="col centered" style="cursor: pointer; height: 30%; border-bottom: #282828 1px solid;">
+            <i style="font-size: 40px; margin-bottom: 10px;" class="bi bi-file-earmark-plus-fill"></i>
+            @if(imageLimitSurpassed()) {
+                <div style="color: red;" class="font-2">Limite de {{imageLimit}} imagens atingido!!</div>
+            }
+            @else {
+                <div class="font-2">Clique e selecione até {{imageLimit}} imagens</div>
+            }
+        </div>
+    }
+    @if (indexedImages().length === 0) {
+        <div class="col centered" style="height: 70%;">
+            <div class="font-2">Suas imagens serão exibidas aqui.</div>
+        </div>
+    }
+    @else {
+        <div
+            cdkDropList
+            [cdkDropListData]="indexedImages"
+            (cdkDropListDropped)="drop($event)"
+            class="col" style="padding: 10px; gap: 10px; overflow: auto; width: calc(100% - 20px); height: calc(70% - 30px);">
+            @for (image of indexedImages(); track image; let index = $index) {
+                <div cdkDrag class="row centered" style="cursor: pointer; width: 100%; border-bottom: #282828 1px solid; padding-bottom: 10px;">
+                    <img
+                        style="border-radius: 8px; margin-top: 10px; margin-right: 5px;"
+                        [src]="image.imageUrl"
+                        [width]="50"
+                        [height]="50"
+                        />
+                    <div style="margin-left: 10px;" class="font-2">
+                        {{ index + 1 }}º imagem à exibir
+                    </div>
+                    <i (click)="removeIndex(index)" style="margin-left: auto; cursor: pointer; right: 0; top: 0px; font-size: 15px; color: darkred;" class="bi bi-x-square-fill"></i>
+                </div>
+            }
+        </div>
+    }
+</div>

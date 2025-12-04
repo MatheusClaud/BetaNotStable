@@ -1,0 +1,100 @@
+
+@let store = storeService.currentPublicStore();
+@let product = productService.currentPublicProduct();
+<div class="history">
+    <h4 (click)="goTo('/home')">Início</h4>
+    <h3>-</h3>    
+    <p (click)="goTo('/stores')">Lojas</p>
+    <h3>-</h3>
+    @if(store != null) {
+        <p (click)="goTo('/store', {store: store.id})">{{store?.name}}</p>
+    }
+    @else {
+        <p>Carregando...</p>
+    }
+    <h3>-</h3>
+    @if(product != null) {
+        <p>{{product?.name}}</p>
+    }
+    @else {
+        <p>Carregando...</p>
+    }
+</div>
+<div class="cccc">
+    <div class="iiii">
+
+        @if(product != null) {
+            @if (product.publicImageUrls.length > 0) {
+                <img class="selected shadow-box" [src]="productService.currentPublicProduct()!!.publicImageUrls[selectedImageIndex()]">
+            } @else {
+                <img class="selected shadow-box" src="default_product.jpg">
+            }
+        
+
+            <div class="ssss shadow-box selected">
+                @if (product.publicImageUrls.length > 0) {
+                    @for(link of productService.currentPublicProduct()!!.publicImageUrls; track $index) {
+                        @if ($index === selectedImageIndex() ) {
+                            <img class="selected shadow-box2" style="height: 85%; border-radius: 5px; aspect-ratio: 3 / 4; object-fit: cover;" [src]="productService.currentPublicProduct()!!.publicImageUrls[$index]">
+                        } @else {
+                            <img (click)="setSelectedIndex($index)" class="shadow-box shadow-box2" style="height: 70%; aspect-ratio: 3 / 4; object-fit: cover;" [src]="productService.currentPublicProduct()!!.publicImageUrls[$index]">
+                        }
+                    }            
+                } @else {
+                    <img class="selected shadow-box2" style="height: 85%; border-radius: 5px; aspect-ratio: 3 / 4; object-fit: cover;" src="default_product.jpg">
+                }
+            </div>
+        }
+
+    </div>
+
+    <div class="dddd">
+        @if(product != null) {
+            <div style="margin-top: 30px; font-size: 28px;" class="font-2-bold hide-one">{{product.name}}</div>
+            <div style="margin: 15px 10px; font-size: 18px;" class="font-2 hide-three">{{product.description}}</div>
+            <div style="margin: 15px 10px; font-size: 38px;"  class="font-2">R$ {{product.basePrice | number: '1.2-2'}}</div>
+
+            <form [formGroup]="form">
+                @if (product.attributes.sizes != null && product.attributes.sizes.length > 0) {
+                    <div style="margin: 10px 10px; font-size: 14px;" class="font-2-bold">Tamanho:</div>
+
+                    <mat-form-field style="margin: 0px 40px; width: calc(100% - 40px);">
+                        <mat-label>Escolha um tamanho</mat-label>
+                        <mat-select formControlName="size">
+                            @for (size of product.attributes.sizes; track size) {
+                                <mat-option [value]="size">{{size}}</mat-option>
+                            }
+                        </mat-select>
+                    </mat-form-field>
+                }
+
+                @if (product.attributes.colors != null && product.attributes.colors.length > 0) {
+                    <div style="margin: 10px 10px; font-size: 14px;" class="font-2-bold">Cor:</div>
+
+                    <mat-form-field style="margin: 0px 40px; width: calc(100% - 40px);">
+                        <mat-label>Escolha uma cor</mat-label>
+                        <mat-select formControlName="color">
+                            @for (color of product.attributes.colors; track color) {
+                                <mat-option [value]="color">{{color}}</mat-option>
+                            }
+                        </mat-select>
+                    </mat-form-field>
+                }
+
+                <div style="gap: 10px; font-size: 14px;" class="row centered font-2-bold">
+                    <p >Quantidade: </p>
+                        <select class="quantity clickable" formControlName="quantity">
+                            @for(q of quantitys; track q) {
+                                <option [value]="q">{{ q }}</option>
+                            }
+                        </select>
+                </div>
+            </form>
+
+            <button (click)="addProductToCart()" [disabled]="!canAddProductToCart()" class="bb bbb">
+                ADICIONAR AO CARRINHO
+            </button>
+            <small style="align-self: center; margin-top: 5px;">*Adicionar produtos de lojas diferentes irá esvaziar o carrinho.</small>   
+        }
+    </div>
+</div>

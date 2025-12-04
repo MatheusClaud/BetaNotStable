@@ -1,0 +1,37 @@
+<i (click)="close()" class="dialog-close-btn bi bi-x-lg"></i>
+<div class="dialog-container">
+    <div class="center">
+        <h2>Entre com sua conta</h2>
+    </div>  
+
+    <br>
+
+    <form class="user-data-form" [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="field">
+            @let email = "email";
+            <label>Email:</label>
+            <input type="email" [formControlName]="email" placeholder="email@exemplo.com"/>
+
+             @if (fieldHasError(email, errorRequired)) { <small>Insira um email.</small> }
+             @if (fieldHasError(email, errorEmail)) { <small>Insira um email válido.</small> }
+        </div>
+
+        <br>
+
+        <div class="field">
+            <label>Senha:</label>
+            @let password = "password";
+            <input type="password" [formControlName]="password" placeholder="senha" />
+            @if (fieldHasError(password, errorRequired)) { <small>Insira uma senha.</small> }
+            @if (fieldHasError(password, errorMinLength)) { <small>Insira uma senha válida.</small> }
+        </div>
+
+        <br>
+        <br>
+        <button style="margin-bottom: 20px;" type="submit" [disabled]="form.invalid">Login</button>
+        @if (loginError()) {
+            <small style="margin-bottom: 10px;">Houve um problema com o login.</small>   
+        }
+        <a (click)="forgotPassword()" style="cursor: pointer;" class="font-2">Esqueci minha senha</a>
+    </form>
+</div>

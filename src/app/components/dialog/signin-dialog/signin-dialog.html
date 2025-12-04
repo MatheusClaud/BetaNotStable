@@ -1,0 +1,135 @@
+<i (click)="close()" class="dialog-close-btn bi bi-x-lg"></i>
+<div class="dialog-container">
+    <div class="singin-header center">
+        <h2>Cadastre sua conta</h2>
+    </div>  
+
+    <br>
+    
+    <form class="user-data-form" [formGroup]="form" (ngSubmit)="onSubmit()">
+        
+        <div class="field">
+            @let name = "name"; 
+            <label>Nome:</label>
+            <input type="text" [formControlName]=name placeholder="nome"/>
+
+            @if (fieldHasError(name, errorRequired)) { <small>Insira um nome.</small> }
+        </div>
+
+        <div class="field">
+            @let date = 'birthAt';
+            <label>Data nascimento:</label>
+            <input onlyNumbers class="form-field" type="text" [formControlName]=date placeholder="Data nascimento">
+
+            @if (fieldHasError(date, errorRequired)) { <small>Insira seu aniversário.</small> }
+            @if (fieldHasError(date, errorAge)) { <small>Você precisa ter ao menos 18 anos.</small> }
+            @if (fieldHasError(date, errorMinLength)) { <small>Insira uma data válida.</small> }
+        </div>
+
+        <div class="field">
+            @let email = 'email';
+            <label>Email:</label>
+            <input type="instagram" [formControlName]=email placeholder="seu email"/>
+
+            @if (fieldHasError(email, errorRequired)) { <small>Insira um email.</small> }
+            @if (fieldHasError(email, errorEmail)) { <small>Insira um email válido.</small> }
+        </div>
+
+        <div class="field">
+            @let password = 'password';
+            <label>Senha:</label>
+            <input type="password" [formControlName]=password placeholder="senha" />
+
+            @if (fieldHasError(password, errorRequired)) { <small>Insira uma senha.</small> }
+            @if (fieldHasError(password, errorMinLength)) { <small>Insira uma senha válida.</small> }
+            @if (fieldHasError(password, errorPasswordValid)) { <small>Senha deve ter no mínimo sete caracteres, uma letra maiuscula, um número e um símbolo.'.</small> }
+        </div>
+
+        <div class="field">
+            @let phone = "phoneNumber";
+            <label>Telefone:</label>
+            <input onlyNumbers type="phone" [formControlName]=phone placeholder="(00) 0 0000-0000"/>
+
+            @if (fieldHasError(phone, errorRequired)) { <small>Insira um telefone.</small> }
+            @if (fieldHasError(phone, errorMinLength)) { <small>Insira um telefone válido.</small> }
+        </div>
+
+        <div class="field">
+            @let cpf = "taxId";
+            <label>Cpf:</label>
+            <input onlyNumbers type="text" [formControlName]=cpf placeholder="Cpf"/>
+
+            @if (fieldHasError(cpf, errorRequired)) { <small>Insira seu cpf.</small> }
+            @if (fieldHasError(cpf, errorMinLength)) { <small>Insira um cpf válido.</small> }
+        </div>
+
+        <div style="width: 100%;" class="col centered" formGroupName="address">
+
+             <div class="field">
+                @let address = "address";
+                @let zipCode = "zipCode";
+                <label>Cep:</label>
+                <input onlyNumbers maxlength="9" class="form-field" type="text" [formControlName]=zipCode placeholder="Cep">
+
+                    @if (errorAddressFromCep() && fieldTouched(zipCode)) {
+                        <small>Não foi possível recuperar informações com esse cep, revise-o ou insira os dados manualmente abaixo.</small>   
+                    }
+                    @if (subFieldHasError(address, zipCode, errorRequired)) { <small>Insira um cep</small> }
+                    @if (subFieldHasError(address, zipCode, errorMinLength)) { <small>Insira uma cep válido.</small> }
+            </div>
+
+            @if(userAddressFromCep() != null && !errorAddressFromCep()) {
+                <div class="field">
+                    @let street = "street";
+                    <label>Rua:</label>
+                    <input class="form-field" type="text" [formControlName]=street placeholder="Rua">
+                    @if (subFieldHasError(address, street, errorRequired)) { <small>Insira sua rua.</small> }
+                </div>
+
+                <div class="field">
+                    @let city = "city";
+                    <label>Cidade:</label>
+                    <input class="form-field" type="text" [formControlName]=city placeholder="Cidade">
+                    @if (subFieldHasError(address, city, errorRequired)) { <small>Insira sua cidade.</small> }
+                </div>
+
+                <div class="field">
+                    @let neighbourhood = "neighbourhood";
+                    <label>Bairro:</label>
+                    <input class="form-field" type="text" [formControlName]=neighbourhood placeholder="Bairro">
+                    @if (subFieldHasError(address, neighbourhood, errorRequired)) { <small>Insira seu bairro.</small> }
+                </div>
+
+                <div class="field">
+                    @let number = "number";
+                    <label>Numero:</label>
+                    <input onlyNumbers class="form-field" type="text" formControlName="number" placeholder="Numero">
+                    @if (subFieldHasError(address, number, errorRequired)) { <small>Insira o numero de seu endereço.</small> }
+                </div>
+
+                <div class="field">
+                    @let complement = "complement";
+                    <label>Complemento:</label>
+                    <input class="form-field" type="text" [formControlName]=complement placeholder="Complemento">
+                    @if (subFieldHasError(address, number, errorRequired)) { <small>Insira detalhes de seu endereço.</small> }
+                </div>
+            }
+            </div>
+
+        <div>
+            @let marketing = "acceptMarketing";
+            <input class="form-check-input" type="checkbox" [formControlName]=marketing id="defaultCheck1">
+            <label class="form-check-label" for="defaultCheck1">
+                Aceito receber propaganda
+            </label>
+        </div>
+
+        <br>
+        @if (userCreationError()) {
+            <small>Houve um problema, confira suas informações e tente novamente mais tarde.</small>   
+        }
+        <br>
+        <button [disabled]="form.invalid" type="submit" >Cadastrar conta</button>
+        <br>
+    </form>
+</div>

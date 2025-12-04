@@ -1,0 +1,144 @@
+<i (click)="close()" class="dialog-close-btn bi bi-x-lg"></i>
+<div class="dialog-container">
+    <div class="create-store-header center">
+        <h2>Cadastrar sua Loja</h2>
+    </div>
+
+    <br>
+
+    <form class="user-data-form" [formGroup]="form" (ngSubmit)="onSubmit()">
+
+        <div class="field">
+            @let name = "name";
+            <label>Nome da Loja:</label>
+            <input type="text" [formControlName]=name placeholder="Nome da Loja" />
+
+            @if (fieldHasError(name, errorRequired)) { <small>Insira o nome da loja.</small> }
+        </div>
+
+        <div class="field">
+            @let description = "description";
+            <label>Descrição:</label>
+            <textarea [formControlName]=description placeholder="Descreva sua loja"></textarea>
+
+            @if (fieldHasError(description, errorRequired)) { <small>Insira uma descrição.</small> }
+        </div>
+
+        <div class="field">
+            @let instagram = "instagram";
+            <label>Instagram:</label>
+            <input type="text" [formControlName]=instagram placeholder="Ex: @sua_loja" />
+        </div>
+
+        <div class="field">
+            @let cnpj = "cnpj";
+            <label>CNPJ:</label>
+            <input onlyNumbers maxlength="18" type="text" [formControlName]=cnpj placeholder="00.000.000/0000-00" />
+
+            @if (fieldHasError(cnpj, errorRequired)) { <small>Insira o CNPJ da loja.</small> }
+            @if (fieldHasError(cnpj, errorMinLength)) { <small>Insira um CNPJ válido.</small> }
+        </div>
+
+        <div class="field">
+            @let minOrderValue = "minOrderValue";
+            <label>Valor Mínimo do Pedido:</label>
+            <input onlyNumbers type="text" [formControlName]=minOrderValue placeholder="500.00" />
+
+            @if (fieldHasError(minOrderValue, errorRequired)) { <small>Insira o valor mínimo do pedido.</small> }
+            <!-- Adicione validações de formato se necessário (ex: pattern para moeda) -->
+        </div>
+
+        <div class="field">
+            @let minOrderQuantity = "minOrderQuantity";
+            <label>Quantidade Mínima de Itens do Pedido:</label>
+            <input onlyNumbers type="number" [formControlName]=minOrderQuantity placeholder="12" />
+
+            @if (fieldHasError(minOrderQuantity, errorRequired)) { <small>Insira a quantidade mínima do pedido.</small> }
+            <!-- Adicione validações de mínimo/máximo se necessário -->
+        </div>
+
+        <div class="field">
+            <label>Dias de Funcionamento:</label>
+        </div>
+
+         <div style="width: 90%; display: flex; flex-direction: row; justify-content: space-between;">
+            @let monday = "monday";
+            @let tuesday = "tuesday";
+            @let wednesday = "wednesday";
+            @let thursday = "thursday";
+            @let friday = "friday";
+            @let saturday = "saturday";
+            @let sunday = "sunday";
+
+            <div style="display: flex; flex-direction: column; align-items: center;">
+                <label>Seg</label>
+                <input type="checkbox" [formControlName]="monday" />
+            </div>
+            <div style="display: flex; flex-direction: column; align-items: center;">
+                <label>Ter</label>
+                <input type="checkbox" [formControlName]="tuesday" />
+            </div>
+            <div style="display: flex; flex-direction: column; align-items: center;">
+                <label>Qua</label>
+                <input type="checkbox" [formControlName]="wednesday" />
+            </div>
+            <div style="display: flex; flex-direction: column; align-items: center;">
+                <label>Qui</label>
+                <input type="checkbox" [formControlName]="thursday" />
+            </div>
+            <div style="display: flex; flex-direction: column; align-items: center;">
+                <label>Sex</label>
+                <input type="checkbox" [formControlName]="friday" />
+            </div>
+            <div style="display: flex; flex-direction: column; align-items: center;">
+                <label>Sab</label>
+                <input type="checkbox" [formControlName]="saturday" />
+            </div>
+            <div style="display: flex; flex-direction: column; align-items: center;">
+                <label>Dom</label>
+                <input type="checkbox" [formControlName]="sunday" />
+            </div>
+        </div>
+
+        <!-- <div style="margin-left: 5%;" class="field">
+            @let appyHourToAllDays = "appyHourToAllDays";
+            <label>- Horários:</label>
+            <div class="field" style="flex-direction: row; align-items: center; gap: 8px; margin-left: 2%;">
+                <input type="checkbox" id="agree" style="width: auto; margin: 0;" [formControlName]="appyHourToAllDays" />
+                <label for="agree" style="font-weight: normal;">Usar mesmo horário para todos os dias.</label>
+            </div>
+        </div> -->
+
+
+        @let businessHours = "businessHours";
+        @let openHour = "open";
+        @let closeHour = "close";
+
+        <div class="row" style="width: 80%; gap: 20px;" [formGroupName]="businessHours">
+            <div class="col" style="max-width: calc(50% - 10px);">
+                <label class="label">Abre</label>
+                <mat-form-field appearance="outline">
+                    <mat-select [formControlName]="openHour" panelClass="time-select-panel">
+                        @for (time of timeOptions; track time) {
+                            <mat-option [value]="time">{{ time }}</mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col" style="max-width: calc(50% - 10px);">
+                <label class="label">Fecha</label>
+                <mat-form-field appearance="outline">
+                    <mat-select [formControlName]="closeHour" panelClass="time-select-panel">
+                        @for (time of timeOptions; track time) {
+                            <mat-option [value]="time">{{ time }}</mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <br>
+        <button [disabled]="form.invalid" type="submit">Cadastrar Loja</button>
+        <br>
+    </form>
+</div>

@@ -1,0 +1,91 @@
+@if(showSideBar()) {
+    <div class="content">
+        <div (click)="closeCart()" class="outer"></div>
+        <div class="inner">
+            <div class="flag">
+                <p>MINHA SACOLA</p>
+                <h1 (click)="closeCart()"><i class="bi bi-x"></i></h1>
+            </div>
+            <div class="product-list">
+                @let items = cartService.items();
+                @if (items.length > 0) {
+                    @for(product of items; track product; let i = $index) {
+                        <div class="cart-product">
+                            @if (product.product.publicImageUrls.length > 0) {
+                                <img class="clickable" [src]="product.product.publicImageUrls[0]" />
+                            } @else {
+                                <img class="clickable" src="default_product.jpg" />
+                            }
+            
+                            <div class="description col">
+                                <div class="row">
+                                    <a class="name">{{ product.product.name }}</a>
+                                    <i (click)="removeItem(i)" class="clickable trash bi bi-trash3"></i>
+                                </div>
+                    
+                                <div class="col">
+                                    <a class="size">Tamanho: {{ product.size }}</a>
+                                    <a class="color">Cor: {{ product.color }}</a>
+                                </div>
+                                <div class="row">
+                                    <a class="price">R$ {{ product.product.basePrice| number: '1.2-2' }}</a>
+                                    <form>
+                                        <select (change)="onSelectionChange(i, $event)" class="quantity clickable">
+                                            @for(q of quantitys; track q) {
+                                                @if (q == product.quantity) {
+                                                    <option selected="selected" [value]="q">{{ q }}</option>
+                                                } @else {
+                                                    <option [value]="q">{{ q }}</option>
+                                                }
+                                            }
+                                        </select>
+                                    </form>
+                                </div>               
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+            <div class="bottom-cart">
+                <div class="col aa">
+                    <div class="row">
+                        <a>Subtotal:</a>
+                        <a>R$ {{ totalPrice | number: '1.2-2' }}</a>
+                    </div>
+                    <div class="row">
+                        <a>Frete:</a>
+                        @if(totalPrice == 0) {
+                             <a>R$ 0,00</a> 
+                        }
+                        @if(totalPrice != 0) {
+                             <a>R$ 20,00</a> 
+                        }
+                    </div>   
+                    <div class="aaa row">
+                        <a>Total:</a> 
+                        @if(totalPrice == 0) {
+                            <a>R$ {{ totalPrice | number: '1.2-2' }}</a>
+                        }
+                        @if(totalPrice != 0) {
+                            <a>R$ {{ totalPrice + 20 | number: '1.2-2' }}</a>
+                        }
+                    </div>         
+                </div>
+                <div class="col">
+                    <button [disabled]="cartService.items().length == 0" (click)="sendOrderToStore()" class="bb bbb hide-one">
+                        @let store = cartService.currentStoreInCart();
+                        @if (store === null) {
+                            ENVIAR PEDIDO
+                        } @else {
+                            ENVIAR PEDIDO PARA : {{store.name}}
+                        }
+                    </button>
+                    <button (click)="clearCart()" class="bb">
+                        LIMPAR CARRINHO
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+}

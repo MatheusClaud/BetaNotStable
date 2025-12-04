@@ -1,0 +1,164 @@
+.content {
+    position: absolute;
+    right: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1000;
+    display: flex;
+    flex-direction: row;
+}
+
+.outer {
+    width: 60%;
+    background-color: var(--color--primary-02);
+    opacity: 0.5;
+}
+
+.inner {
+    position: relative;
+    width: max(40%, 600px);
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+}
+
+.flag {
+    display: flex;
+    flex-direction: row;
+    height: 60px;
+    background-color: black;
+    color: white;
+    align-items: center;
+    justify-content: center;
+}
+
+.flag i {
+    position: absolute;
+    left: 20px;
+    top: 12px;
+    cursor: pointer;
+}
+
+.flag p {
+    letter-spacing: 1px;
+    font-weight: 700;
+    font-size: 18;
+}
+
+.cart-product {
+    display: flex;
+    flex-direction: row;
+    padding: 20px 20px 5px 20px;
+}
+
+.cart-product img {
+    width: auto;
+    height: 140px;
+    border-radius: 5%;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.col {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.description {
+    height: 140px;
+    width: 100%;
+    overflow-y: hidden;
+    padding: 5px 10px;
+
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: 20px;
+    letter-spacing: 0.64px;
+}
+
+.description .name {
+    font-weight: 400;
+}
+
+.price {
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.clickable {
+    cursor: pointer;
+}
+
+.clickable:hover {
+    transform: scale(1.1);
+}
+
+.product-list {
+    height: calc(70% - 60px);
+    overflow-y: scroll;
+}
+
+.bottom-cart {
+    margin-top: 15px;
+    height: calc(30% - 15px);
+    overflow-y: scroll;
+    border-top: solid 0.3px black;
+    display: flex;
+    flex-direction: column;
+}
+
+.aa {
+    gap: 10px;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 350;
+    line-height: 20px;
+    letter-spacing: 0.64px;
+    padding: 20px 15px;
+}
+
+.aaa {
+    font-weight: 400;
+    margin-top: 10px;
+}
+
+.bb {
+    border: none;
+    padding: 10px;
+    margin: 0px 15px;
+    margin-top: 5px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.bb:hover {
+    margin: 0px 0px;
+    margin-top: 5px;
+    border-radius: 0px;
+    transform: scale(1.1);
+}
+
+.bbb {
+    background-color: black;
+    color: var(--color--primary-03);
+}
+
+.bbb:disabled {
+    background-color: gray;
+    color: var(--color--primary-03);
+}
+
+.hide-one {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    line-clamp: 1; 
+    -webkit-box-orient: vertical;
+}

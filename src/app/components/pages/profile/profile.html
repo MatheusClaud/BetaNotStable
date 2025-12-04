@@ -1,0 +1,126 @@
+<div class="col" style="width: 100%; height: 100%; justify-content: space-around;">
+    <div style="padding: 20px;" class="font-2-bold-2">Dados de usuário:</div>
+    <div class="settings-content-container">
+        <div class="col1 settings-item ">
+            <label class="font-2-bold-2">Informações pessoais:</label>
+            <form class="user-data-form" [formGroup]="form" (ngSubmit)="onSubmit()">
+                <div class="field">
+                    @let name = "name"; 
+                    <label>Nome:</label>
+                    <input type="text" [formControlName]=name placeholder="nome"/>
+
+                    @if (fieldHasError(name, errorRequired)) { <small>Insira um nome.</small> }
+                </div>
+
+                <div class="field">
+                    @let cpf = "taxId";
+                    <label>Cpf:</label>
+                    <input onlyNumbers type="text" [formControlName]=cpf placeholder="Cpf"/>
+                </div>
+
+                <div class="field">
+                    @let date = 'birthAt';
+                    <label>Data nascimento:</label>
+                    <input onlyNumbers class="form-field" type="text" [formControlName]=date placeholder="Data nascimento">
+                </div>
+
+                <div class="field">
+                    @let email = 'email';
+                    <label>Email:</label>
+                    <input type="instagram" [formControlName]=email placeholder="seu email"/>
+
+                    @if (fieldHasError(email, errorRequired)) { <small>Insira um email.</small> }
+                    @if (fieldHasError(email, errorEmail)) { <small>Insira um email válido.</small> }
+                </div>
+
+                <div class="field">
+                    @let phone = "phoneNumber";
+                    <label>Telefone:</label>
+                    <input onlyNumbers type="phone" [formControlName]=phone placeholder="(00) 0 0000-0000"/>
+
+                    @if (fieldHasError(phone, errorRequired)) { <small>Insira um telefone.</small> }
+                    @if (fieldHasError(phone, errorMinLength)) { <small>Insira um telefone válido.</small> }
+                </div>
+
+                <div style="align-self: start;">
+                    @let marketing = "acceptMarketing";
+                    <input class="form-check-input" type="checkbox" [formControlName]=marketing id="defaultCheck1">
+                    <label class="form-check-label font-2" for="defaultCheck1">
+                        Aceito receber propaganda
+                    </label>
+                </div>
+
+                <br>
+            </form>
+        </div>
+        <div class="col2 border-left settings-item ">
+            <label class="font-2-bold-2">Endereço:</label>
+            <form class="user-data-form" [formGroup]="form" (ngSubmit)="onSubmit()">
+                <div style="width: 100%;" class="col centered" formGroupName="address">
+
+                    <div class="field">
+                        @let address = "address";
+                        @let zipCode = "zipCode";
+                        <label>Cep:</label>
+                        <input onlyNumbers maxlength="9" class="form-field" type="text" [formControlName]=zipCode placeholder="Cep">
+
+                            @if (errorAddressFromCep() && fieldTouched(zipCode)) {
+                                <small>Não foi possível recuperar informações com esse cep, revise-o ou insira os dados manualmente abaixo.</small>   
+                            }
+                            @if (subFieldHasError(address, zipCode, errorRequired)) { <small>Insira um cep</small> }
+                            @if (subFieldHasError(address, zipCode, errorMinLength)) { <small>Insira uma cep válido.</small> }
+                    </div>
+
+                    <div class="field">
+                        @let street = "street";
+                        <label>Rua:</label>
+                        <input class="form-field" type="text" [formControlName]=street placeholder="Rua">
+                        @if (subFieldHasError(address, street, errorRequired)) { <small>Insira sua rua.</small> }
+                    </div>
+
+                    <div class="field">
+                        @let city = "city";
+                        <label>Cidade:</label>
+                        <input class="form-field" type="text" [formControlName]=city placeholder="Cidade">
+                        @if (subFieldHasError(address, city, errorRequired)) { <small>Insira sua cidade.</small> }
+                    </div>
+
+                    <div class="field">
+                        @let neighbourhood = "neighbourhood";
+                        <label>Bairro:</label>
+                        <input class="form-field" type="text" [formControlName]=neighbourhood placeholder="Bairro">
+                        @if (subFieldHasError(address, neighbourhood, errorRequired)) { <small>Insira seu bairro.</small> }
+                    </div>
+
+                    <div class="field">
+                        @let number = "number";
+                        <label>Numero:</label>
+                        <input onlyNumbers class="form-field" type="text" formControlName="number" placeholder="Numero">
+                        @if (subFieldHasError(address, number, errorRequired)) { <small>Insira o numero de seu endereço.</small> }
+                    </div>
+
+                    <div class="field">
+                        @let complement = "complement";
+                        <label>Complemento:</label>
+                        <input class="form-field" type="text" [formControlName]=complement placeholder="Complemento">
+                        @if (subFieldHasError(address, number, errorRequired)) { <small>Insira detalhes de seu endereço.</small> }
+                    </div>
+                
+                </div>
+            </form>
+        </div>
+    </div>
+    @if (userService.errorOnEdit()) {
+        <div class="user-data-form">
+            <small>Houve um problema, confira suas informações e tente novamente mais tarde.</small>   
+        </div>
+    }
+    <button (click)="onSubmit()" style="align-self: end; margin-top: 20px;; margin-right: 30px; margin-bottom: 30px; width: 200px;" class="form-btn" type="submit" >
+        @if (isOnEditMode()) {
+            Salvar alterações
+        }
+        @else {
+            Editar dados
+        }
+    </button>
+</div>
